@@ -11,21 +11,18 @@
     <p> Minu nimi on Juhan Klaassen. Olen 20. aastane esmakursuslane Tallinna Ülikoolis. Oma kohta oskan õelda, et teen asju hetke tunde järgi. </p>
   <p>See leht on loodud õppetöö raames <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> ja ei sisalda tõsiselt võetavalt materjali!</p> </center>
  <hr>
+ <h2>Eesti filmitegelased</h2>
  <ul>
 	<li><a href="/">Avalehele</a></li>
+	<li><a href="/eestifilm/">Eesti filmi avaleht</a></li>
  </ul>
  <hr>
- <h2>Registreeri oma külastus sellele veebilehele (tekstifaili)</h2>
- <form method="POST">
-	<label for="firstNameInput">Sisesta oma eesnimi</label>
-	<input type="text" id="firstNameInput" name="firstNameInput" placeholder="Eesnimi...">
-	<br>
-	<label for="lastNameInput">Sisesta oma Perekonnanimi</label>
-	<input type="text" id="lastNameInput" name="lastNameInput" placeholder="Perekonnanimi...">	
-	<br>
-	<input type="submit" id="regSubmit" name="regSubmit" value="Salvesta">
- </form>
- <hr>
+ <ul>
+	<% persons.forEach(function(item){ %>
+	<li><%= item.first_name %> <%= item.last_name %>, sündinud: <%= item.birth_date %>
+	</li>
+	<% }); %>
+ </ul>
 </body>
 </html>
 

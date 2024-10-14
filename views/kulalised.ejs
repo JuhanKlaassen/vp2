@@ -13,14 +13,16 @@
  </center>
  <hr>
  <ul>
- <li><a href="/timenow">Ajainfo</a></li>
- <li><a href="/vanasonad">Vanasõnad</a></li>
- <li><a href="/regvisit">Registreeri oma külastus (pane nimi kirja tekstifaili!)</a></li>
- <li><a href="/regvisitdb">Registreeri oma külastus (pane nimi kirja andmebaasi!)</a></li>
- <li><a href="/kulalised">Vaata, kes on ennast registreerinud ja millal!</a></li>
- <li><a href="/eestifilm">Eesti filmi andmebaas</a></li>
+  <li><a href="/">Avalehele</a></li>
+  </ul>
+  <hr>
+ <h1>Registreeritud külalised:</h1>
+ <ul>
+   <% visitorData.forEach(function(entry) { %>
+     <li><%= entry %></li>
+   <% }); %>
  </ul>
- <hr>
+ 
 </body>
 </html>
 
