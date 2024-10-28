@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="utf-8"> 
+  <title>Juhan Klaassen</title>
+  <script> src="first.js" </script>
+</head>
+<body>
+<center><img src="/banner/vp_banner_2024.png" alt="veebiprogrammeerimise 2024 aasta kursuse banner"></center>
+  <center><h1>Juhan Klaasseni veebileht</h1>
+    <p> Minu nimi on Juhan Klaassen. Olen 20. aastane esmakursuslane Tallinna Ülikoolis. Oma kohta oskan õelda, et teen asju hetke tunde järgi. </p>
+  <p>See leht on loodud õppetöö raames <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> ja ei sisalda tõsiselt võetavalt materjali!</p> </center>
+ <hr>
+ <ul>
+	<li><a href="/">Avalehele</a></li>
+ </ul>
+ <hr>
+ <h2>Galeriifotode ülesslaadimine</h2>
+ <form method="POST" enctype="multipart/form-data">
+	<label for="photoInput">Vali pildifail</label>
+	<input type="file" id="photoInput" name="photoInput" required>
+	<br>
+	<label for="altInput">Sisesta alternatiivtekst</label>
+	<input type="text" id="altInput" name="altInput" placeholder="Alternatiivtekst...">
+	<br>
+	
+	<input type="radio" id="privacyInput1" name="privacyInput" value="1" checked>
+	<label for="privacyInput1">Privaatne(ainult omanik näeb)</label>
+	<br>
+	<input type="radio" id="privacyInput2" name="privacyInput" value="2">
+	<label for="privacyInput2">Sisseloginud kasutajatele</label>
+	<br>
+	<input type="radio" id="privacyInput3" name="privacyInput" value="3">
+	<label for="privacyInput3">Avalik</label>
+	<br>
+	
+	<input type="submit" id="photoSubmit" name="photoSubmit" value="Lae Üles">
+</form>
+</body>
+</html>
+

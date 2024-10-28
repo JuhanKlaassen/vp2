@@ -17,18 +17,44 @@
  <hr>
  <h2>Lisa flmitegelane</h2>
  <form method="POST">
-	<label for="firstNameInput">Sisesta oma eesnimi</label>
+	<label for="firstNameInput">Sisesta tegelase eesnimi</label>
 	<input type="text" id="firstNameInput" name="firstNameInput" placeholder="Eesnimi...">
 	<br>
-	<label for="lastNameInput">Sisesta oma Perekonnanimi</label>
+	<label for="lastNameInput">Sisesta tegelase Perekonnanimi</label>
 	<input type="text" id="lastNameInput" name="lastNameInput" placeholder="Perekonnanimi...">
 	<br>
-	<label for="birthNameInput">Sisesta oma Perekonnanimi</label>
+	<label for="birthNameInput">Sisesta sünnikuupäev</label>
 	<input type="date" id="birthDateInput" name="birthDateInput" placeholder="Sünnikuupäev...">
 	<br>
-	<input type="submit" id="regSubmit" name="regSubmit" value="Salvesta">
- </form>
+	<input type="submit" name="personSubmit" value="Salvesta">
+</form>
  <hr>
+ <h2>Lisa film</h2>
+ <form method="POST">
+	<label for="Title">Sisesta filmi nimi</label>
+	<input type="text" id="Title" name="Title" placeholder="Filmi nimi....">
+	<br>
+	<label for="productionYear">Sisesta filmi väljalaskekuupäev</label>
+	<input type="date" id="productionYear" name="productionYear" placeholder="väljaaskekuupäev...">
+	<br>
+	<label for="duration">Sisesta filmi pikkus</label>
+	<input type="number" id="duration" name="duration" placeholder="Filmi pikkus...">
+	<br>
+	<label for="description">Sisesta filmi kirjeldus</label>
+	<input type="text" id="description" name="description" placeholder="Filmi kirjeldus...">
+	<br>
+	<input type="submit" name="filmSubmit" value="Salvesta">
+</form>
+ <hr>
+ <h2>Lisa roll</h2>
+ <form method="POST">
+	<label for="positionName">Sisesta rolli nimi</label>
+	<input type="text" id="positionName" name="positionName" placeholder="Rolli nimi...">
+	<br>
+	<label for="positionDescription">Sisesta rolli kirjeldus </label>
+	<input type="text" id="" name="positionDescription" placeholder="Rolli kirjeldus...">
+	<br>
+	<input type="submit" name="roleSubmit" value="Salvesta"> </form>
 </body>
 </html>
 

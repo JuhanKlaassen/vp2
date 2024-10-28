@@ -13,20 +13,16 @@
  </center>
  <hr>
  <ul>
- <li><a href="/timenow">Ajainfo</a></li>
- <li><a href="/vanasonad">Vanasõnad</a></li>
- <li><a href="/regvisit">Registreeri oma külastus (pane nimi kirja tekstifaili!)</a></li>
- <li><a href="/regvisitdb">Registreeri oma külastus (pane nimi kirja andmebaasi!)</a></li>
- <li><a href="/kulalised">Vaata, kes on ennast registreerinud ja millal!</a></li>
- <li><a href="/kulalisedDB">Vaata, kes on ennast registreerinud ja millal! (andmebaasi)</a></li>
- <li><a href="/eestifilm">Eesti filmi andmebaas</a></li>
- <li><a href="/photoupload">Galeriifotode üleslaadimine</a></li>
- <li><a href="/photosgallery">Galerii</a></li>
-
-
-
- </ul>
- <hr>
+  <li><a href="/">Avalehele</a></li>
+  </ul>
+  <hr>
+ <h1>Registreeritud külalised:</h1>
+ <ul>
+  <% names.forEach(name => { %>
+      <li><%= name.first_name %> <%= name.last_name %></li>
+  <% }); %>
+</ul>
+ 
 </body>
 </html>
 
