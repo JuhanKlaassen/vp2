@@ -13,14 +13,13 @@
  <hr>
  <h2>Eesti filmitegelased</h2>
  <ul>
-	<li><a href="/">Avalehele</a></li>
+	<li><a href="/home">Avalehele</a></li>
 	<li><a href="/eestifilm/">Eesti filmi avaleht</a></li>
  </ul>
  <hr>
  <ul>
 	<% persons.forEach(function(item){ %>
-	<li><%= item.first_name %> <%= item.last_name %>, sündinud: <%= item.birth_date %>
-	</li>
+	<li><%= item.first_name %> <%= item.last_name %>, sündinud: <%= item.birth_date %>, <a href="/eestifilm/personrelations/<%= item.id %>">Vaata seoseid</a></li>
 	<% }); %>
  </ul>
 </body>

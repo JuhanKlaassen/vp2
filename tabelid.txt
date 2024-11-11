@@ -4,3 +4,7 @@ CREATE TABLE `if24_juhan_kl`.`vp2visitlog` (`id` INT(11) NOT NULL AUTO_INCREMENT
 
 fotod
 	
+	
+	
+	
+CREATE TABLE `if24_juhan_kl`.`vp2users` (`id` INT(11) NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(50) NOT NULL , `last_name` VARCHAR(50) NOT NULL , `birth_date` DATE NOT NULL , `gender` INT(1) NOT NULL , `email` VARCHAR(100) NOT NULL , `password` VARCHAR(60) NOT NULL , `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;

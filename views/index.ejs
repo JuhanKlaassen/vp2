@@ -11,20 +11,25 @@
     <p> Minu nimi on Juhan Klaassen. Olen 20. aastane esmakursuslane Tallinna Ülikoolis. Oma kohta oskan õelda, et teen asju hetke tunde järgi. </p>
   <p>See leht on loodud õppetöö raames <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> ja ei sisalda tõsiselt võetavalt materjali!</p> 
  </center>
- <hr>
- <ul>
+  <hr>
+  <form method="POST">
+	<label for="emailInput">Kasutajatunnusek (e-mail)</label>
+	<input type="email" id="emailInput" name="emailInput">
+	<br>
+	<label for="passwordInput">Salasõna</label>
+	<input type="password" id="passwordInput" name="passwordInput">
+	<br>
+	<input type="submit" id="loginSubmit" name="loginSubmit" value="Logi sisse"><span><%= locals.notice %></span>
+  </form>
+  <hr>
+  <ul>
  <li><a href="/timenow">Ajainfo</a></li>
  <li><a href="/vanasonad">Vanasõnad</a></li>
  <li><a href="/regvisit">Registreeri oma külastus (pane nimi kirja tekstifaili!)</a></li>
  <li><a href="/regvisitdb">Registreeri oma külastus (pane nimi kirja andmebaasi!)</a></li>
  <li><a href="/kulalised">Vaata, kes on ennast registreerinud ja millal!</a></li>
  <li><a href="/kulalisedDB">Vaata, kes on ennast registreerinud ja millal! (andmebaasi)</a></li>
- <li><a href="/eestifilm">Eesti filmi andmebaas</a></li>
- <li><a href="/photoupload">Galeriifotode üleslaadimine</a></li>
- <li><a href="/photosgallery">Galerii</a></li>
-
-
-
+ <li><a href="/signup">Kasutajakonto loomine</a></li>
  </ul>
  <hr>
 </body>

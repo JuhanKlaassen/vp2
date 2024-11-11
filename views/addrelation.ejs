@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="utf-8"> 
+  <title>Juhan Klaassen</title>
+  <script> src="first.js" </script>
+</head>
+<body>
+<center><img src="/banner/vp_banner_2024.png" alt="veebiprogrammeerimise 2024 aasta kursuse banner"></center>
+  <center><h1>Juhan Klaasseni veebileht</h1>
+    <p> Minu nimi on Juhan Klaassen. Olen 20. aastane esmakursuslane Tallinna Ülikoolis. Oma kohta oskan õelda, et teen asju hetke tunde järgi. </p>
+  <p>See leht on loodud õppetöö raames <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> ja ei sisalda tõsiselt võetavalt materjali!</p> </center>
+ <hr>
+ <ul>
+	<li><a href="/home">Avalehele</a></li>
+ </ul>
+ <hr>
+ <h2>Lisa flmitegelase seoseid.</h2>
+ <form method="POST">
+	<label for="personSelect">filmitegelane</label>
+	<select id="personSelect" name="personSelect">
+		<option selected disabled>Vali tegelane</option>
+		<% personList.forEach(function(person) { %>
+			<option value="<%= person.id %>"><% person.first_name%><%person.last_name%>, sünd. <%=person.birth_date %></option>
+		<% }); %>
+	</select>
+	<br>
+	<label for="movieSelect">film</label>
+	<select id="movieSelect" name="movieSelect">
+		<option selected disabled>Vali film</option>
+		<% personList.forEach(function(movie) { %>
+			<option value="<%= movie.id %>"><% movie.title%>, toodetud: <%= movie.production_year %></option>
+		<% }); %>
+	</select>
+	<br>
+	<select id="positionSelect" name="positionSelect">
+		<option selected disabled>Vali roll/amet</option>
+		<% positionList.forEach(function(position) { %>
+			<option value="<%= position.id %>"><%= position.position_name %></option>
+		<% }); %>
+	</select>
+		<label for="roleInput">Roll/tegelaskuju (kui on näitleja)</label>
+		<input type="text" id="roleInput" name="roleInput" placeholder="Tegelaskuju ...">
+	<br>
+	<input type="submit" id="relationSubmit" name="relationSubmit" value="Salvesta">
+</form>
+</body>
+</html>
+

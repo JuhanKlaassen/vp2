@@ -11,6 +11,12 @@ const mysql = require("mysql2");
 const multer = require("multer");
 //fotomaniuplatsiooniks
 const sharp = require("sharp");
+//paroolde krüpteerimiseks
+const bcrypt = require("bcrypt");
+//sessioonihaldur
+const session = require("express-session");
+//asünkroosuse võimaldaja
+const asyn = require("async");
 
 const app = express();
 
@@ -19,9 +25,12 @@ app.set("view engine", "ejs");
 //Määran jagatavate, avalike failide kausta
 app.use(express.static("public"));
 //kasutame body-parserit päringute parsimiseks (kui ainult tekst, siis false, kui ka pildid jms, siis true)
-app.use(bodyparser.urlencoded({extended: true}))
+app.use(bodyparser.urlencoded({extended: true}));
 //seadistame fotode ülesslaadimiseks vahevara (middleware), mis määrab kataloogi, kuhu laetakse.
 const upload = multer({dest: "./public/gallery/orig"});
+//sessioonihaldur
+app.use(session({secret: "minuAbsoluutseltSalajaneVõti", saveUninitialized: true, resave: true}));
+let mySession;
 
 //loon andmebaasiühenduse
 const conn = mysql.createConnection({
@@ -37,6 +46,114 @@ app.get("/", (req, res)=>{
 	res.render("index");
 });
 
+
+app.post("/", (req, res)=>{
+	let notice = null;
+	if(!req.body.emailInput || !req.body.passwordInput){
+		console.log("Sisselogimise andmed pole täielikud!");
+		notice = "Sisselogimise andmeid on puudu!";
+		res.render("index", {notice: notice});
+	}
+	else {
+		let sqlReq = "SELECT id,password FROM vp2users WHERE email = ?";
+		conn.execute(sqlReq, [req.body.emailInput], (err, result)=>{
+			if(err){
+				notice = "Tehnilise vea tõttu ei saa sisse logida!";
+				console.log(err);
+				res.render("index", {notice: notice});
+			}
+			else {
+				if(result[0] != null){
+					//kontrollime, kas sisselogimisel sisestatud paroolist saaks sellise rأ¤si nagu andmebaasis
+					bcrypt.compare(req.body.passwordInput, result[0].password, (err, compareresult)=>{
+						if(err){
+							notice = "Tehnilise vea tõttu andmete kontrollimisel ei saa sisse logida!";
+							console.log(err);
+							res.render("index", {notice: notice});
+						}
+						else {
+							//kui võrdlustulemus on positiivne
+							if(compareresult){
+								notice = "Oledki sisse loginud!";
+								//võtame sessiooni kasutusele
+								mySession = req.session;
+								mySession.userId = result[0].id;
+								//res.render("index", {notice: notice});
+								res.redirect("/home");
+							}
+							else {
+								notice = "Kasutajatunnus ja/või parool oli vale!";
+								res.render("index", {notice: notice});
+							}
+						}
+					});
+				}
+				else {
+					notice = "Kasutajatunnus või parool oli vale!";
+					res.render("index", {notice: notice});
+				}
+			}
+		});
+	}
+	//res.render("index");
+});
+
+app.get("/home", checkLogin, (req, res)=>{
+	console.log("Sisse on loginud kasutaja : " + mySession.userId);
+	res.render("home");
+});
+
+app.get("/signup", (req, res)=>{
+	res.render("signup");
+});
+
+app.get("/logout", (req, res)=>{
+	req.ression.destroy();
+	MySession = null;
+	res.render("/");
+});
+
+
+app.post("/signup", (req, res)=>{
+	let notice = "Ootan andmeid";
+	if(!req.body.firstNameInput || !req.body.lastNameInput || !req.body.birthDateInput || !req.body.genderInput || !req.body.emailInput || req.body.passwordInput.length < 8 || req.body.passwordInput !== req.body.confirmPasswordInput){
+		console.log("Andmeid puudu või parool ei klapi")
+		notice = "Adnemdi on puudu või paroolid ei kattu!!!!";
+		res.render("signup", {notice: notice});
+	}
+	else {
+		notice = "Andmed korras!";
+		bcrypt.genSalt(10, (err, salt)=>{
+			if(err){
+				notice = "Tehniline viga, kasutajat ei loodud."
+				res.render("signup", {notice: notice});
+			}
+			else {
+				bcrypt.hash(req.body.passwordInput, salt, (err, pwdHash)=>{
+					if(err){
+						notice = "Tehniline viga, kasutajat ei loodud."
+						res.render("signup", {notice: notice});
+					}
+					else{
+						let sqlReq = "INSERT INTO vp2users (first_name, last_name, birth_date, gender, email, password) VALUES(?,?,?,?,?,?)";
+						conn.execute(sqlReq, [req.body.firstNameInput, req.body.lastNameInput, req.body.birthDateInput, req.body.genderInput, req.body.emailInput, pwdHash], (err, result)=>{
+							if(err){
+								notice = "Tehniline viga andmebaasi kirjutamisel";
+								res.render("signup", {notice: notice});
+							}
+							else{
+								notice = "Kasutaja " + req.body.emailInput + " edukalt loodud!";
+								res.render("signup", {notice: notice});
+							}
+						});
+					}
+				});
+			}
+		});
+		//res.render("signup", {notice: notice});
+	}
+	//res.render("signup")
+});
 
 app.get("/timenow", (req, res)=>{
 	const weekdayNow = dateTime.weekDayEt();
@@ -153,7 +270,7 @@ app.get("/eestifilm", (req, res)=>{
 });
 app.get("/eestifilm/tegelased", (req, res)=>{
 	//loon andmebaasi päringus
-	let sqlReq = "SELECT first_name, last_name, birth_date FROM person";
+	let sqlReq = "SELECT id, first_name, last_name, birth_date FROM person";
 	conn.query(sqlReq, (err, sqlRes)=>{
 		if(err){
 			//res.render("tegelased", {persons: [first_name: "Ei", last_name: "leidnud", birth_date: "VIGA"]});
@@ -167,8 +284,71 @@ app.get("/eestifilm/tegelased", (req, res)=>{
 	//res.render("tegelased")
 });
 
+app.get("/eestifilm/lisaseos", (req, res)=>{
+	//kasutades async moodulit panen mitu andmebaasipäringut paraleelset toimima
+	//loon SQL päringute (lausa tegevuste ehk funksioonide) loendi
+	const myQueries = [
+		function(callback){
+			conn.excecute("SELECT id, first_name, last_name, birth_date FROM person", (err, result)=>{
+				if(err){
+					return callback(err);
+				}
+				else {
+					return callback(null, result);
+				}
+			});
+		},		
+		function(callback){
+			conn.excecute("SELECT id, title, production_year FROM movie", (err, result)=>{
+				if(err){
+					return callback(err);
+				}
+				else {
+					return callback(null, result);
+				}
+			});
+		},
+		function(callback){
+			conn.excecute("SELECT id, title, production_year FROM movie", (err, result)=>{
+				if(err){
+					return callback(err);
+				}
+				else {
+					return callback(null, result);
+				}
+			});
+		},
+	];
+	//paneme need tegevused paralleelset tööle, tulemuse saab kui kõik tehtud
+	//Välundiks üks koondlist
+	asyn.parallel(myQueries, (err, results)=>{
+		if(err){
+			throw err;
+		}
+		else{
+			console.log(result);
+			res.render("addrelation", {personList: result[0], movieList: results[1]});
+		}
+	});
+/* 	let sqlReq = "SELECT id, first_name, last_name, birth_date FROM person";
+	conn.execute(sqlReq, (err, result)=>{
+		if(err){
+			throw err;
+		}
+		else{
+			console.log(result);
+			res.render("addrelation", {personList: result});
+		}
+	}); */
+	//res.render("addrelation");
+});
+
 app.get("/eestifilm/lisa", (req, res)=>{
-	res.render("addperson")
+	res.render("addperson");
+});
+app.get("/eestifilm/personrelations/:id", (req, res)=>{
+	console.log(req.params);
+	res.render("personrelations");
 });
 
 app.post("/eestifilm/lisa", (req, res) => {
@@ -249,22 +429,38 @@ app.post("/photoupload", upload.single("photoInput"), (req, res)=>{
 });
 
 app.get("/photosgallery", (req, res)=>{
-	let sqlReq = "SELECT file_name, alt_text FROM vp2photos WHERE privacy == ? AND deleted is NULL ORDER BY id DESC";
+	let sqlReq = "SELECT id, file_name, alt_text FROM vp2photos WHERE privacy = ? AND deleted is NULL ORDER BY id DESC";
 	const privacy = 3;
 	let photoList = [];
-	conn.query(sqlReq, [privacy], (err, result)=>{
+	conn.execute(sqlReq, [privacy], (err, result)=>{
 		if(err){
 			throw(err);
 		}
-		else{
+		else {
 			console.log(result);
-			result.forEach(photo => {
-				photoList.push({}href: "gallery/thumb/" + photo.file_name, alt: photo.alt_text);
+			for(let i = 0; i < result.length; i ++) {
+				photoList.push({id: result[i].id, href: "gallery/thumb/", filename: result[i].file_name + result[i].file_name, alt: result[i].alt_text});
 			}
 			res.render("photosgallery", {listData: photoList});
 		}
 	});
+	res.render("photosgallery");
 });
 
+function checkLogin(req, res, next){
+	if(mySession != null){
+		if(mySession.userId){
+			console.log("Login ok!");
+			next();
+		}
+		else {
+			console.log("Login not detected!");
+			res.redirect("/");
+		}
+	}
+	else {
+		res.redirect("/");
+	}
+}
 
 app.listen(5205);
