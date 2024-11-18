@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="et">
+<html>
 <head>
   <meta charset="utf-8"> 
   <title>Juhan Klaassen</title>
@@ -14,25 +14,12 @@
     <p>Minu nimi on Juhan Klaassen. Olen 20. aastane esmakursuslane Tallinna Ülikoolis. Oma kohta oskan öelda, et teen asju hetke tunde järgi.</p>
   <p>See leht on loodud õppetöö raames <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> ja ei sisalda tõsiselt võetavat materjali!</p> </center>
  <hr>
- <ul>
-	<li><a href="/home">Avalehele</a></li>
-  </ul>
-  <hr>
-  <dialog id="modal" class="modalarea">
-	<span id="modalClose" class="modalclose">&times;</span>
-	<div class="modalhorizontal">
-		<div class="modavertical">
-			<p id="modalCaption"></p>
-			<img id="modalImage" src="/pics/empty.png" alt="galeriipilt">
-		</div>
-	</div>
-  </dialog>
-  <h2>Fotogalerii</h2>
-  <div class="gallery">
-	  <% listData.forEach(function(image){ %>
-		<img src="<%= image.href %><%= image.filename %>" alt="<%= image.alt %>" data-filename="<%=image.filename %>" data-id="<%= image.id %>" class="thumbs">
-	  <% }); %>
-  </div>
+<p>UUDISED!! TÄHTIS!</p>
+	<ul>
+		<li><a href="/news/add">Uudise lisamine</a></li>
+		<li><a href="/news/read">Uudiste lugemine</a></li>
+		<li><a href="/home">Avalehele</a></li>
+	</ul>
+	<hr>
 </body>
 </html>
-

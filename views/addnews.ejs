@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"> 
+  <title>Juhan Klaassen</title>
+  <link rel="stylesheet" href="/style/gallery.css">
+  <link rel="stylesheet" href="/style/modal.css">
+  <script src="/script/gallery.js" defer></script>
+  <script src="first.js"></script>
+</head>
+<body>
+<center><img src="/banner/vp_banner_2024.png" alt="veebiprogrammeerimise 2024 aasta kursuse banner"></center>
+  <center><h1>Juhan Klaasseni veebileht</h1>
+    <p>Minu nimi on Juhan Klaassen. Olen 20. aastane esmakursuslane Tallinna Ülikoolis. Oma kohta oskan öelda, et teen asju hetke tunde järgi.</p>
+  <p>See leht on loodud õppetöö raames <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> ja ei sisalda tõsiselt võetavat materjali!</p> </center>
+ <hr>
+	<ul>
+		<li><a href="/news">Uudiste avaleht</a></li>
+		<li><a href="/home">Avalehele</a></li>
+	</ul>
+	<hr>
+	<h2>Lisa uudis</h2>
+	<form method="POST">
+		<label for="titleInput">Uudise pealkiri</label>
+		<input type="text" name="titleInput" id="titleInput" placeholder="Uudise pealkiri ..." required>
+		<br>
+		<label for="contentInput">Uudise sisu</label>
+		<br>
+		<textarea id="contentInput" name="contentInput" placeholder="Uudise sisu ..." required rows="5" cols="80" maxlength="2000"></textarea>
+		<br>
+		<label for="expireInput">Uudise aegumiskuupäev</label>
+		<input type="date" name="expireInput" id="expireInput" required>
+		<br>
+		<input type="submit" name="newsSubmit" value="Salvesta">
+	</form>
+	<p><%= locals.notice || 'Ootel!' %></p>
+</body>
+</html>
